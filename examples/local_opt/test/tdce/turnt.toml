@@ -1,0 +1,1 @@
+command = "bril2json < {filename} | python3 ../../local_opt/global_dce.py {args} | brili"
