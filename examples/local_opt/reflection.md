@@ -16,6 +16,7 @@ My [global dce](global_dce.py) implementation iterates through the instructions 
 
 #### Benchmark result for all bril programs under 'test/tdce' directory.
 ![Benchmark result](Figure_1.png)
+
 Global DCE had varying effects across different benchmarks. In cases where the benchmarks involved unused variables, such as double-pass and combo, global DCE yielded clear benefits.
 
 # Local Dead Code Elimination
@@ -45,7 +46,7 @@ My implementation for [local value numbering](lvn.py) includes the following fea
 ### 5. **Efficient Variable Reuse**
    - If an expression has been computed before, the previously assigned variable is reused, which reduces redundant instructions and improves performance.
 
-## Limitations
+### Limitations
 
 ### 1. **No Constant Folding**
    - This implementation does not perform constant folding due to time constraint.
@@ -55,7 +56,7 @@ My implementation for [local value numbering](lvn.py) includes the following fea
 
 The LVN optimization is particularly effective in benchmarks like reassign, fold-comparisons, and clobber-arg, where there are clear opportunities for eliminating redundant expressions or reassignments. In some benchmarks, such as logical-operators and commute, LVN had little impact.
 
-During the implementation of **local value numbering (LVN)**, I encountered several challenges:
+### During the implementation of **local value numbering (LVN)**, I encountered several challenges:
 
 ### 1. **Handling the `id` Operation**
    Initially, I faced issues with redundant `id` operations, such as **`KeyError`** for missing variables. The bug was caused by incorrect variable propagation, and I resolved it by ensuring that the source variable was properly tracked and propagated.
