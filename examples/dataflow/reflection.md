@@ -27,3 +27,13 @@ The global liveness analysis, a backward dataflow problem, determines which vari
 2. Union-Based Merge: The merge function for liveness uses set union to combine the liveness information from different paths in the control flow graph (CFG).
 3. Dead Code Elimination: By integrating liveness analysis with the global dead code elimination pass, I ensured that only variables that are not live at the end of a block are removed. This eliminates trivial dead code and optimizes the program by removing unnecessary computations.
 
+## Effectiveness and Correctness:
+
+### How to Test
+
+```bash
+cd examples/dataflow/test/df
+turnt *.bril
+```
+
+I tested both analyses on the test/df directory and verfied the correctness of both analyses.

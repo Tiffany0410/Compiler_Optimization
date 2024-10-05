@@ -1,0 +1,7 @@
+[envs.live]
+command = "bril2json < {filename} | python3 ../../dataflow.py live"
+output."live.out" = "-"
+
+[envs.cprop]
+command = "bril2json < {filename} | python3 ../../dataflow.py cprop"
+output."cprop.out" = "-"

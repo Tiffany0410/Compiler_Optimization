@@ -13,27 +13,28 @@ Analysis = namedtuple('Analysis', ['forward', 'init', 'merge', 'transfer'])
 
 def global_dce(func, liveness_out):
     """
-    Trivial global dead code elimination using liveness information.
+    Global dead code elimination using liveness information.
+    Iterates over each block, processing instructions backwards to eliminate dead code.
     """
-    converge = False
-
-    while not converge:
-        converge = True
+    for block_label, block in zip(func['block_labels'].values(), func['blocks']):
+        live_vars = liveness_out[block_label].copy()
+        new_block = []
         
-        # Iterate over the blocks and instructions
-        for block_label, block in zip(func['block_labels'].values(), func['blocks']):
-            new_block = []
-            for instr in block:
-                if "dest" in instr:
-                    dest = instr["dest"]
-                    # If the destination is not live in the liveness_out set for this block, it's dead code
-                    if dest not in liveness_out[block_label]:
-                        converge = False  # Mark as not converged to continue iteration
-                        continue  # Skip adding this instruction (dead code)
-                new_block.append(instr)
-            # Update the block with potentially removed dead instructions
-            block_index = list(func['block_labels'].values()).index(block_label)
-            func['blocks'][block_index] = new_block
+        for instr in reversed(block):
+            if 'dest' in instr:
+                dest = instr['dest']
+                if dest not in live_vars:
+                    continue  # Skip adding this instruction (dead code)
+                else:
+                    live_vars.discard(dest)
+
+            if 'args' in instr:
+                live_vars.update(instr['args'])
+
+            new_block.insert(0, instr)
+
+        block_index = list(func['block_labels'].values()).index(block_label)
+        func['blocks'][block_index] = new_block
 
 def union(sets):
     """
@@ -193,10 +194,11 @@ def run_df(func, analysis):
         analysis.transfer, analysis.merge, analysis.forward
     )
 
-    # print_df(In, Out)
+    if not DCE:
+        print_df(In, Out)
 
     if analysis == 'live' and DCE:
-        global_dce(func, In, Out)
+        global_dce(func, Out)
 
 DCE = True
 
@@ -223,4 +225,6 @@ if __name__ == "__main__":
     prog = json.load(sys.stdin)
     for func in prog['functions']:
         run_df(func, analysis)
-    json.dump(prog, sys.stdout, indent=2)
+
+    if DCE:
+        json.dump(prog, sys.stdout, indent=2)

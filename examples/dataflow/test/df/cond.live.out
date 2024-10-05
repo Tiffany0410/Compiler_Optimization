@@ -1,0 +1,12 @@
+block.00:
+  in:  ∅
+  out: a
+left:
+  in:  a
+  out: a, c
+right:
+  in:  ∅
+  out: a, c
+end:
+  in:  a, c
+  out: ∅
