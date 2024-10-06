@@ -37,3 +37,9 @@ turnt *.bril
 ```
 
 I tested both analyses on the test/df directory and verfied the correctness of both analyses.
+
+### Limitation
+
+I attempted to implement Global Dead Code Elimination using liveness information and tested it with a benchmark. However, the results were not effective. I may not have implemented Global DCE correctly, I will investigate it further.
+
+![Benchmark result](Figure.png)
