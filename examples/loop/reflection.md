@@ -40,16 +40,6 @@ Here are some of the programs with big improvement with LICM:
 3. **euclid**: Reduced instructions by 3.4% (19 instructions)
 4. **riemann**: Reduced instructions by 2.3% (7 instructions)
 
-## Challenges
-
-Implementing LICM presented some challenges that deepened my understanding of loop optimizations:
-
-1. **Identifying Natural Loops**: Determining the structure of natural loops within the code was a complex task that required careful analysis of the control flow graph.
-
-2. **Finding Loop Invariants**: Especially tracking reaching definitions was a bit challenging. It required a thorough understanding of data flow analysis and how variables are used and defined throughout the program.
-
-3. **Filtering Movable Invariants**: Determining which loop invariants could safely be moved outside the loop without affecting program required careful consideration of various edge cases.
-
 ## Implementation Summary
 
 The LICM optimization is implemented in the `licm.py` file. Here's an overview of the key components and algorithms:
@@ -73,6 +63,16 @@ The LICM optimization is implemented in the `licm.py` file. Here's an overview o
 
 5. **Control Flow Graph Manipulation**:
    - Functions `update_graph` and `update_label2block` handle the necessary CFG updates when inserting the preheader.
+
+### Challenges
+
+Implementing LICM presented some challenges that deepened my understanding of loop optimizations:
+
+1. **Identifying Natural Loops**: Determining the structure of natural loops within the code was a complex task that required careful analysis of the control flow graph.
+
+2. **Finding Loop Invariants**: Especially tracking reaching definitions was a bit challenging. It required a thorough understanding of data flow analysis and how variables are used and defined throughout the program.
+
+3. **Filtering Movable Invariants**: Determining which loop invariants could safely be moved outside the loop without affecting program required careful consideration of various edge cases.
 
 ### Limitations and Future Improvements
 
