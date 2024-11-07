@@ -10,14 +10,13 @@ I implemented a straightforward alias analysis that tracks the potential alias r
 
 #### Dead Store Elimination (DSE) [(dse.py)](./dse.py)
 The DSE pass uses alias information to identify and remove redundant store instructions. The basic DSE algorithm works as follows:
-1. Identify Potential Dead Stores: For each store instruction, check if its stored value is later accessed. If not, it is considered dead.
-2. Alias-Based Validation: Using the alias information, verify that the store location does not alias with any live variables. If the store location is disjoint from the live set, the store is removed.
-3. In-Block Memory Access Pattern Analysis: To further enhance DSE, I implemented an in-block analysis to detect consecutive store instructions to the same location with no intervening loads. Only the last store in a sequence is retained, as intermediate stores are redundant.
+1. **Identify Potential Dead Stores**: For each store instruction, check if its stored value is later accessed. If not, it is considered dead.
+2. **Alias-Based Validation**: Using the alias information, verify that the store location does not alias with any live variables. If the store location is disjoint from the live set, the store is removed.
+3. **In-Block Memory Access Pattern Analysis**: To further enhance DSE, I implemented an in-block analysis to detect consecutive store instructions to the same location with no intervening loads. Only the last store in a sequence is retained, as intermediate stores are redundant.
 
 #### Enhanced Implementation Attempts [(enhanced_dse.py)](./enhanced_dse.py)
-To improve the effectiveness of DSE, I attempted a more advanced version of alias analysis using:
+To improve the effectiveness of DSE, I attempted a more advanced version of alias analysis using `In-Block Memory Access Pattern Analysis`: 
 
-##### In-Block Memory Access Pattern Analysis: 
 In remove_dead_stores, I added a variable `last_store_target` to track consecutive stores to the same location. When a store operation is detected to the same location as `last_store_target` (with no intervening loads or operations that could invalidate it), it is skipped as redundant. This effectively keeps only the final store in a sequence of consecutive stores to the same location.
 
 ### Benchmark Results and Analysis
