@@ -1,0 +1,25 @@
+@main {
+  one: int = const 1;
+  x: ptr<int> = alloc one;
+
+  fifty: int = const 50;
+  store x fifty;
+
+  sixty: int = const 60;
+  store x sixty;
+
+  seventy: int = const 70;
+  store x seventy;
+
+  final_value: int = load x;
+  print final_value;
+
+  # Stores that happen after the final load, potential dead stores
+  post_load_val_one: int = const 10;
+  store x post_load_val_one;
+
+  post_load_val_two: int = const 20;
+  store x post_load_val_two;
+
+  free x;
+}
